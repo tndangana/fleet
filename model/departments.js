@@ -2,7 +2,8 @@ const Seq = require('sequelize');
 const db = require('../config/database');
 
 
-const Departments = db.define('departments', {
+
+module.exports = db.define('departments', {
 
     department_id: {
         type: Seq.INTEGER,
@@ -35,7 +36,5 @@ const Departments = db.define('departments', {
     timestamps: true,
     freezeTableName: true
 });
-module.exports = Departments;
-
 
 

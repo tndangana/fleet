@@ -2,7 +2,7 @@ const Seq = require('sequelize');
 const db = require('../config/database');
 
 
-const Drivers = db.define('drivers', {
+module.exports = db.define('drivers', {
 
     driver_id: {
         type: Seq.INTEGER,
@@ -55,6 +55,5 @@ const Drivers = db.define('drivers', {
     freezeTableName: true
 });
 
-module.exports = Drivers;
 
 

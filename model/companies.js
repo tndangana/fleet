@@ -1,7 +1,8 @@
 const Sequelize = require('sequelize');
 const db = require('../config/database');
 
-const Companies = db.define('companies', {
+
+module.exports= db.define('companies', {
     company_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -33,9 +34,4 @@ const Companies = db.define('companies', {
     timestamps: true,
     freezeTableName: true
 });
-
-module.exports = Companies;
-
-
-
 

@@ -2,7 +2,7 @@ const Seq = require('sequelize');
 const db = require('../config/database');
 
 
-const FuelRequests = db.define('fuel_requests', {
+module.exports = db.define('fuel_requests', {
 
     fuel_request_id: {
         type: Seq.INTEGER,
@@ -86,7 +86,3 @@ const FuelRequests = db.define('fuel_requests', {
     timestamps: true,
     freezeTableName: true
 });
-
-module.exports = FuelRequests;
-
-

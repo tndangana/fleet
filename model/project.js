@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const db = require('../config/database');
 
-const Projects = db.define('projects', {
+module.exports =  db.define('projects', {
     project_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -42,5 +42,3 @@ const Projects = db.define('projects', {
     timestamps: true,
     freezeTableName: true
 });
-module.exports = Projects;
-

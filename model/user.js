@@ -1,8 +1,9 @@
 const Sequelize = require('sequelize');
 const db = require('../config/database');
+const bcrypt = require("bcrypt");
 
 
-const User = db.define('user', {
+module.exports = db.define('user', {
 
     user_id: {
         type: Sequelize.INTEGER,
@@ -35,13 +36,24 @@ const User = db.define('user', {
 
 }, {
     timestamps: true,
-    freezeTableName: true
+    freezeTableName: true,
+    
+        hooks: {
+          beforeCreate: (user) => {
+            const salt = bcrypt.genSaltSync();
+            user.password = bcrypt.hashSync(user.password, salt);
+          }
+        },
+        instanceMethods: {
+          validPassword: function(password) {
+            return bcrypt.compareSync(password, this.password);
+          }
+        }
+       
 });
 
 
 
-
-module.exports = User;
 
 
 

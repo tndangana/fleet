@@ -2,7 +2,7 @@ const Sequelize = require('sequelize');
 const db = require('../config/database');
 
 
-const VehicleMake = db.define('vehicle_make', {
+module.exports =  db.define('vehicle_make', {
 
     make_id: {
         type: Sequelize.INTEGER,
@@ -37,8 +37,4 @@ const VehicleMake = db.define('vehicle_make', {
     timestamps: true,
     freezeTableName: true
 });
-
-module.exports = VehicleMake;
-
-
 

@@ -2,7 +2,7 @@ const db = require('../config/database');
 const Seq = require('sequelize');
 
 
-const VehicleModel = db.define('vehicle_models',{
+module.exports =  db.define('vehicle_models',{
  
     vehicle_model_id:{
         type: Seq.INTEGER,
@@ -40,5 +40,3 @@ const VehicleModel = db.define('vehicle_models',{
     timestamps: true,
     freezeTableName: true
 });
-
-module.exports = VehicleModel;

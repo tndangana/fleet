@@ -1,7 +1,7 @@
 const Seq = require('sequelize');
 const db = require('../config/database');
 
-const VehicleType = db.define('vehicle_type', {
+module.exports =  db.define('vehicle_type', {
 
     vehicle_type_id: {
         type: Seq.INTEGER,
@@ -35,4 +35,3 @@ const VehicleType = db.define('vehicle_type', {
     freezeTableName: true
 });
 
-module.exports = VehicleType;

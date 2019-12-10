@@ -1,7 +1,7 @@
 const Seq = require('sequelize');
 const db = require('../config/database');
 
-const FuelRequestPayments = db.define('fuel_request_payment', {
+module.exports = db.define('fuel_request_payment', {
     payment_id: {
         type: Seq.INTEGER,
         allowNull: false,
@@ -44,7 +44,5 @@ const FuelRequestPayments = db.define('fuel_request_payment', {
     timestamps: true,
     freezeTableName: true
 });
-
-module.exports = FuelRequestPayments;
 
 

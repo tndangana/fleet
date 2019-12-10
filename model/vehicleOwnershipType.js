@@ -2,7 +2,7 @@ const db = require('../config/database');
 const seq = require('sequelize');
 
 
-const VehicleOwnershipType = db.define('vehicle_ownership_type', {
+module.exports =  db.define('vehicle_ownership_type', {
 
     ownership_type_id: {
         type: seq.INTEGER,
@@ -37,8 +37,6 @@ const VehicleOwnershipType = db.define('vehicle_ownership_type', {
     timestamps: true,
     freezeTableName: true
 });
-
-module.exports = VehicleOwnershipType;
 
 
 

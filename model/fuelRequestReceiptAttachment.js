@@ -2,7 +2,7 @@ const Seq = require('sequelize');
 const db = require('../config/database');
 
 
-const FuelRequestReceiptAttachment = db.define('fuel_request_receipt_attachment', {
+module.exports = db.define('fuel_request_receipt_attachment', {
 
     attachment_id: {
         type: Seq.INTEGER,
@@ -12,7 +12,7 @@ const FuelRequestReceiptAttachment = db.define('fuel_request_receipt_attachment'
     },
     attachment_path: {
         type: Seq.STRING,
-        allowNull:false
+        allowNull: false
     },
     fuel_request_id: {
         type: Seq.INTEGER,
@@ -40,6 +40,4 @@ const FuelRequestReceiptAttachment = db.define('fuel_request_receipt_attachment'
     timestamps: true,
     freezeTableName: true
 });
-
-module.exports = FuelRequestReceiptAttachment;
 

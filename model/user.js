@@ -1,6 +1,5 @@
 const Sequelize = require('sequelize');
 const db = require('../config/database');
-const bcrypt = require("bcrypt");
 
 
 module.exports = db.define('user', {
@@ -26,7 +25,8 @@ module.exports = db.define('user', {
     },
     user_password: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        
     },
 
     is_active: {
@@ -37,19 +37,13 @@ module.exports = db.define('user', {
 }, {
     timestamps: true,
     freezeTableName: true,
-    
-        hooks: {
-          beforeCreate: (user) => {
-            const salt = bcrypt.genSaltSync();
-            user.password = bcrypt.hashSync(user.password, salt);
-          }
-        },
-        instanceMethods: {
-          validPassword: function(password) {
-            return bcrypt.compareSync(password, this.password);
-          }
-        }
-       
+    hooks: {
+      beforeCreate: (user,options) => {
+       console.log(`tapinda here ..........!!!!!!!`)
+      }
+  }
+      
+ 
 });
 
 

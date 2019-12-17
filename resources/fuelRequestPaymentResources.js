@@ -1,4 +1,6 @@
 const FuelRequestPayment = require('../model/fuelRequestPayment');
+const authorize = require("../middleware/auth");
+
 
 
 
@@ -6,7 +8,7 @@ module.exports = (app) => {
 
 
     // create 
-    app.post('/api/f', async (req, res) => {
+    app.post('/api/f', authorize, async (req, res) => {
 
         return await FuelRequestPayment.create({
 
@@ -23,7 +25,7 @@ module.exports = (app) => {
 
         // get all
 
-        app.get('/api/f', async (req, res) => {
+        app.get('/api/f', authorize, async (req, res) => {
 
             return await FuelRequestPayment.findAll()
                 .then((fuelRequestPayment) => {
@@ -32,7 +34,7 @@ module.exports = (app) => {
         }),
 
         //  update 
-        app.put('/api/f/:id', async (req, res) => {
+        app.put('/api/f/:id', authorize, async (req, res) => {
 
             return await FuelRequestPayment.update({
 
@@ -54,7 +56,7 @@ module.exports = (app) => {
 
         // delete by id
 
-        app.delete('/api/f/:id', async (req, res) => {
+        app.delete('/api/f/:id', authorize, async (req, res) => {
             return await FuelRequestPayment.destroy({
                 where: {
                     payment_id: req.params.id
@@ -69,7 +71,7 @@ module.exports = (app) => {
         }),
 
         //  get one by id 
-        app.get('/api/f/:id', async (req, res) => {
+        app.get('/api/f/:id', authorize, async (req, res) => {
             const id = req.params.id;
             return FuelRequestPayment.findAll({
                 where: { payment_id: id }

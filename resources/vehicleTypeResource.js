@@ -1,10 +1,12 @@
 const VehicleType = require('../model/VehicleType');
+const authorize = require("../middleware/auth");
+
 
 
 
 module.exports = (app) => {
 
-    app.post('/api/vtp', async (req, res) => {
+    app.post('/api/vtp', authorize, async (req, res) => {
 
         return await VehicleType.create({
             vehicle_type: req.body.vehicle_type,
@@ -22,7 +24,7 @@ module.exports = (app) => {
                 }).catch(error => res.status(400).send(error));
         }),
 
-        app.put('/api/vtp/:id', async (req, res) => {
+        app.put('/api/vtp/:id', authorize, async (req, res) => {
 
             return await VehicleType.update({
                 vehicle_type: req.body.vehicle_type,
@@ -40,7 +42,7 @@ module.exports = (app) => {
 
         }),
 
-        app.delete('/api/vtp/:id', async (req, res) => {
+        app.delete('/api/vtp/:id', authorize, async (req, res) => {
 
             return await VehicleType.destroy({
                 where: {
@@ -55,7 +57,7 @@ module.exports = (app) => {
             })
         }),
 
-        app.get('/api/vtp/:id', async (req, res) => {
+        app.get('/api/vtp/:id', authorize, async (req, res) => {
             const id = req.params.id;
             return VehicleType.findAll({
                 where: { vehicle_type_id: id }

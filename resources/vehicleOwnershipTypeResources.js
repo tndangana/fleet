@@ -1,10 +1,10 @@
  const VehicleOwnershipType = require('../model/vehicleOwnershipType');
-
+ const authorize = require("../middleware/auth");
 
 
 module.exports = (app) => {
 
-    app.post('/api/vot', async (req, res) => {
+    app.post('/api/vot', authorize,async (req, res) => {
 
         return await VehicleOwnershipType.create({
 
@@ -15,7 +15,7 @@ module.exports = (app) => {
         }).then((vehicleOwnershipType) => res.status(201).send(vehicleOwnershipType))
             .catch(error => res.status(400).send(error));
     }),
-        app.get('/api/vot', async (req, res) => {
+        app.get('/api/vot', authorize,async (req, res) => {
 
              return await VehicleOwnershipType.findAll()
                 .then((ownership) => {
@@ -23,7 +23,7 @@ module.exports = (app) => {
                 }).catch(error => res.status(400).send(error));
         }),
 
-        app.put('/api/vot/:id', async (req, res) => {
+        app.put('/api/vot/:id',authorize, async (req, res) => {
 
             return await VehicleOwnershipType.update({
                 ownership_type: req.body.ownership_type,
@@ -41,7 +41,7 @@ module.exports = (app) => {
 
         }),
 
-        app.delete('/api/vot/:id', async (req, res) => {
+        app.delete('/api/vot/:id', authorize,async (req, res) => {
 
             return await VehicleOwnershipType.destroy({
                 where: {
@@ -56,7 +56,7 @@ module.exports = (app) => {
             })
         }),
 
-        app.get('/api/vot/:id', async (req, res) => {
+        app.get('/api/vot/:id', authorize,async (req, res) => {
             const id = req.params.id;
             return VehicleOwnershipType.findAll({
                 where: { ownership_type_id: id }

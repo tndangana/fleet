@@ -1,10 +1,13 @@
 const Project = require('../model/project');
+const authorize = require("../middleware/auth");
+
+
 
 
 
 module.exports = (app) => {
 
-    app.post('/api/p', async (req, res) => {
+    app.post('/api/p',authorize, async (req, res) => {
 
         return await Project.create({
 
@@ -18,7 +21,7 @@ module.exports = (app) => {
             .catch(error => res.status(400).send(error));
         }),
         
-        app.get('/api/p', async (req, res) => {
+        app.get('/api/p', authorize,async (req, res) => {
 
             return await Project.findAll()
                 .then((project) => {
@@ -26,7 +29,7 @@ module.exports = (app) => {
                 }).catch(error => res.status(400).send(error));
         }),
 
-        app.put('/api/p/:id', async (req, res) => {
+        app.put('/api/p/:id', authorize,async (req, res) => {
 
             return await Project.update({
                 project: req.body.project,
@@ -46,7 +49,7 @@ module.exports = (app) => {
 
         }),
 
-        app.delete('/api/p/:id', async (req, res) => {
+        app.delete('/api/p/:id', authorize,async (req, res) => {
 
             return await Project.destroy({
                 where: {
@@ -61,7 +64,7 @@ module.exports = (app) => {
             })
         }),
 
-        app.get('/api/p/:id', async (req, res) => {
+        app.get('/api/p/:id', authorize,async (req, res) => {
             const id = req.params.id;
             return Project.findAll({
                 where: { project_id: id }

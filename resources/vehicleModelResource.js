@@ -1,10 +1,12 @@
 const VehicleModels = require('../model/vehicleModels');
+const authorize = require("../middleware/auth");
+
 
 
 
 module.exports = (app) => {
 // create
-    app.post('/api/vms', async (req, res) => {
+    app.post('/api/vms', authorize,async (req, res) => {
 
         return await VehicleModels.create({
             model_name: req.body.model_name,
@@ -17,7 +19,7 @@ module.exports = (app) => {
     }),
 
     // get all
-        app.get('/api/vms', async (req, res) => {
+        app.get('/api/vms', authorize,async (req, res) => {
 
             return await VehicleModels.findAll()
                 .then((vehicleModels) => {
@@ -26,7 +28,7 @@ module.exports = (app) => {
         }),
 
         // update
-        app.put('/api/vms/:id', async (req, res) => {
+        app.put('/api/vms/:id', authorize,async (req, res) => {
 
             return await VehicleModels.update({
 
@@ -47,7 +49,7 @@ module.exports = (app) => {
 
         }),
 // destroy
-        app.delete('/api/vms/:id', async (req, res) => {
+        app.delete('/api/vms/:id',authorize, async (req, res) => {
 
             return await VehicleModels.destroy({
                 where: {
@@ -62,7 +64,7 @@ module.exports = (app) => {
             })
         }),
 // find one by id
-        app.get('/api/vms/:id', async (req, res) => {
+        app.get('/api/vms/:id', authorize,async (req, res) => {
             const id = req.params.id;
             return VehicleModels.findAll({
                 where: { vehicle_model_id: id }
@@ -74,6 +76,8 @@ module.exports = (app) => {
                 // handle error;
             })
         });
+
+    
 
 }
 

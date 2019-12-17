@@ -1,10 +1,11 @@
 const FuelRequestReceiptAttachment = require('../model/fuelRequestReceiptAttachment');
+const authorize = require("../middleware/auth");
 
 
 
 module.exports = (app) => {
 
-    app.post('/api/fr', async (req, res) => {
+    app.post('/api/fr',authorize, async (req, res) => {
 
         return await FuelRequestReceiptAttachment.create({
 
@@ -17,7 +18,7 @@ module.exports = (app) => {
             .catch(error => res.status(400).send(error));
     }),
 
-        app.get('/api/fr', async (req, res) => {
+        app.get('/api/fr',authorize, async (req, res) => {
 
             return await FuelRequestReceiptAttachment.findAll()
                 .then((fuelRequestReceiptAttachment) => {
@@ -26,7 +27,7 @@ module.exports = (app) => {
         }),
 
 
-        app.put('/api/fr/:id', async (req, res) => {
+        app.put('/api/fr/:id',authorize, async (req, res) => {
 
             return await FuelRequestReceiptAttachment.update({
 
@@ -45,7 +46,7 @@ module.exports = (app) => {
             });
         }),
 
-        app.delete('/api/fr/:id', async (req, res) => {
+        app.delete('/api/fr/:id', authorize,async (req, res) => {
             return await FuelRequestReceiptAttachment.destroy({
                 where: {
                     attachment_id: req.params.id
@@ -60,7 +61,7 @@ module.exports = (app) => {
         }),
 
 
-        app.get('/api/fr/:id', async (req, res) => {
+        app.get('/api/fr/:id', authorize,async (req, res) => {
             const id = req.params.id;
             return FuelRequestReceiptAttachment.findAll({
                 where: { attachment_id: id }

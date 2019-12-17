@@ -1,10 +1,12 @@
 const Drivers = require('../model/drivers');
+const authorize = require("../middleware/auth");
+
 
 
 
 module.exports = (app) => {
     // create 
-    app.post('/api/c', async (req, res) => {
+    app.post('/api/c', authorize, async (req, res) => {
 
         return await Drivers.create({
 
@@ -19,7 +21,7 @@ module.exports = (app) => {
     }),
 
         //    get all
-        app.get('/api/c', async (req, res) => {
+        app.get('/api/c', authorize, async (req, res) => {
 
             return await Drivers.findAll()
                 .then((driver) => {
@@ -28,7 +30,7 @@ module.exports = (app) => {
         }),
 
         //  update
-        app.put('/api/c/:id', async (req, res) => {
+        app.put('/api/c/:id', authorize, async (req, res) => {
 
             return await Drivers.update({
                 vehicle_id: req.body.vehicle_id,
@@ -49,7 +51,7 @@ module.exports = (app) => {
 
         // delete by id
 
-        app.delete('/api/c/:id', async (req, res) => {
+        app.delete('/api/c/:id', authorize, async (req, res) => {
             return await Drivers.destroy({
                 where: {
                     driver_id: req.params.id
@@ -64,7 +66,7 @@ module.exports = (app) => {
         }),
 
         // get one by Id 
-        app.get('/api/c/:id', async (req, res) => {
+        app.get('/api/c/:id', authorize, async (req, res) => {
             const id = req.params.id;
             return Drivers.findAll({
                 where: { driver_id: id }

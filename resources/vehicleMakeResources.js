@@ -1,10 +1,12 @@
 const VehicleMake = require('../model/vehicleMake');
+const authorize = require("../middleware/auth");
+
 
 
 
 module.exports = (app) => {
 // create
-    app.post('/api/vm', async (req, res) => {
+    app.post('/api/vm', authorize,async (req, res) => {
 
         return await VehicleMake.create({
             vehicle_make: req.body.vehicle_make,
@@ -16,7 +18,7 @@ module.exports = (app) => {
             .catch(error => res.status(400).send(error));
     }),
     // get all
-        app.get('/api/vm', async (req, res) => {
+        app.get('/api/vm', authorize,async (req, res) => {
 
             return await VehicleMake.findAll()
                 .then((vehicleMake) => {
@@ -24,7 +26,7 @@ module.exports = (app) => {
                 }).catch(error => res.status(400).send(error));
         }),
 // update
-        app.put('/api/vm/:id', async (req, res) => {
+        app.put('/api/vm/:id', authorize,async (req, res) => {
 
             return await VehicleMake.update({
                 vehicle_make: req.body.vehicle_make,
@@ -43,7 +45,7 @@ module.exports = (app) => {
 
         }),
 // destroy
-        app.delete('/api/vm/:id', async (req, res) => {
+        app.delete('/api/vm/:id', authorize,async (req, res) => {
 
             return await VehicleMake.destroy({
                 where: {
@@ -59,7 +61,7 @@ module.exports = (app) => {
         }),
 
         // find one by Id
-        app.get('/api/vm/:id', async (req, res) => {
+        app.get('/api/vm/:id', authorize,async (req, res) => {
             const id = req.params.id;
             return VehicleMake.findAll({
                 where: { make_id: id }

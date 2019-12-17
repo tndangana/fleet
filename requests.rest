@@ -1,0 +1,14 @@
+###
+GET  http://localhost:2507/api/u
+
+###
+POST http://localhost:2507/api/register-user
+
+
+{
+    "username": "xavier",
+    "email_address": "x@gmail.com",
+    "contact":"0987265148",
+    "user_password": "Password11",
+    "is_active":true,
+}

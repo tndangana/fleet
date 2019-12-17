@@ -1,10 +1,12 @@
 const Company = require('../model/companies');
+const authorize = require("../middleware/auth");
+
 
 
 
 module.exports = (app) => {
     // create
-    app.post('/api/c', async (req, res) => {
+    app.post('/api/c',authorize, async (req, res) => {
 
         return await Company.create({
             company_name: req.body.company_name,
@@ -14,7 +16,7 @@ module.exports = (app) => {
             .catch(error => res.status(400).send(error));
     }),
         //   get all
-        app.get('/api/c', async (req, res) => {
+        app.get('/api/c',authorize,async (req, res) => {
 
             return await Company.findAll()
                 .then((company) => {
@@ -22,7 +24,7 @@ module.exports = (app) => {
                 }).catch(error => res.status(400).send(error));
         }),
         // update
-        app.put('/api/c/:id', async (req, res) => {
+        app.put('/api/c/:id',authorize,async (req, res) => {
 
             return await Company.update({
                 company_name: req.body.company_name,
@@ -40,7 +42,7 @@ module.exports = (app) => {
 
         }),
         // delete
-        app.delete('/api/c/:id', async (req, res) => {
+        app.delete('/api/c/:id', authorize,async (req, res) => {
 
             return await Company.destroy({
                 where: {
@@ -55,7 +57,7 @@ module.exports = (app) => {
             })
         }),
         //  get one by id 
-        app.get('/api/c/:id', async (req, res) => {
+        app.get('/api/c/:id', authorize,async (req, res) => {
             const id = req.params.id;
             return Company.findAll({
                 where: { company_id: id }

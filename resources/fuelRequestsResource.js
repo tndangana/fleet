@@ -1,10 +1,13 @@
 const FuelRequests = require('../model/fuelRequests');
+const authorize = require("../middleware/auth");
+
+
 
 
 
 module.exports = (app) => {
 
-    app.post('/api/fq', async (req, res) => {
+    app.post('/api/fq',authorize, async (req, res) => {
 
         return await FuelRequests.create({
 
@@ -24,7 +27,7 @@ module.exports = (app) => {
         }).then((fuelRequests) => res.status(201).send(fuelRequests))
             .catch(error => res.status(400).send(error));
     }),
-        app.get('/api/fq', async (req, res) => {
+        app.get('/api/fq', authorize,async (req, res) => {
 
             return await FuelRequests.findAll()
                 .then((fuelRequests) => {
@@ -32,7 +35,7 @@ module.exports = (app) => {
                 }).catch(error => res.status(400).send(error));
         }),
 
-        app.put('/api/fq/:id', async (req, res) => {
+        app.put('/api/fq/:id',authorize, async (req, res) => {
 
             return await FuelRequests.update({
                 department_id: req.body.department_id,
@@ -59,7 +62,7 @@ module.exports = (app) => {
 
         }),
 
-        app.delete('/api/fq/:id', async (req, res) => {
+        app.delete('/api/fq/:id',authorize, async (req, res) => {
 
             return await FuelRequests.destroy({
                 where: {
@@ -74,7 +77,7 @@ module.exports = (app) => {
             })
         }),
 
-        app.get('/api/fq/:id', async (req, res) => {
+        app.get('/api/fq/:id',authorize, async (req, res) => {
             const id = req.params.id;
             return FuelRequests.findAll({
                 where: { fuel_request_id: id }

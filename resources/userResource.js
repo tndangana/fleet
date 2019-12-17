@@ -1,31 +1,41 @@
 const User = require('../model/user');
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
+const authorize = require("../middleware/auth");
 
 
 
 module.exports = (app) => {
-// create
-  app.post('/api/u', async (req, res) => {
+  // create
+ 
+  app.post("/api/register-user", async (req, res, next) => {
 
-    return await User.create({
-      username: req.body.username,
-      email_address: req.body.email_address,
-      contact: req.body.contact,
-      user_password: req.body.user_password,
-      is_active: req.body.is_active
-    }).then((user) => res.status(201).send(user))
-      .catch(error => res.status(400).send(error));
-  }),
+   await bcrypt.hash(req.body.user_password, 10).then(async (hash) => {
+     
+      return await User.create({
+        username: req.body.username,
+        email_address: req.body.email_address,
+        contact: req.body.contact,
+        user_password: hash,
+        is_active: req.body.is_active
+      }).then((user) => res.status(201).send(user))
+        .catch(error => res.status(400).send(error));
+    });
+  })
+  ,
 
-  // get all
-    app.get('/api/u', async (req, res) => {
+    // get all
+    app.get('/api/u',authorize,async (req, res) => {
 
       return await User.findAll()
         .then((users) => {
           res.json(users);
         }).catch(error => res.status(400).send(error));
     }),
-// update
-    app.put('/api/u/:id', async (req, res) => {
+
+
+    // update
+    app.put('/api/u/:id',authorize, async (req, res) => {
 
       return await User.update({
         username: req.body.username,
@@ -45,9 +55,10 @@ module.exports = (app) => {
       });
 
     }),
-// destroy
-    app.delete('/api/u/:id', async (req, res) => {
-        
+
+    // destroy
+    app.delete('/api/u/:id',authorize,async (req, res) => {
+
       return await User.destroy({
         where: {
           user_id: req.params.id
@@ -61,10 +72,11 @@ module.exports = (app) => {
       })
     }),
 
+
     // find one by Id
-    app.get('/api/u/:id', async (req,res)=>{
+    app.get('/api/u/:id',authorize,async (req, res) => {
       const id = req.params.id;
-       return User.findAll({
+      return User.findAll({
         where: { user_id: id }
       }).then(user => {
         res.json(user);
@@ -73,7 +85,54 @@ module.exports = (app) => {
         return 0;
         // handle error;
       })
+    })
+    ,
+
+    app.post("/api/signin", async (req, res, next) => {
+      let getUser;
+
+     await  User.findAll({
+        where: { username: req.body.username }
+      }).then( async user => {
+        if (!user) {
+          return res.status(401).json({
+            message: "Authentication failed"
+          });
+        }
+       
+
+        getUser = await user;
+              console.log(req.body.user_password);
+              console.log(`useruser`,getUser[0].dataValues.user_password);
+       return  bcrypt.compare(req.body.user_password, getUser[0].dataValues.user_password);
+      }).then(response => {
+        console.log(`tapindaa`)
+        if (!response) {
+          return res.status(401).json({
+            message: "Authentication failed"
+          });
+        }
+        console.log(`>>>>>>`,response)
+        let jwtToken = jwt.sign({
+          username: getUser.username,
+          userId: getUser.user_id
+        }, process.env.SECRET_TOKEN_KEY, {
+          expiresIn: "1h"
+        });
+        console.log(`jwt---->token`,jwtToken)
+        res.status(200).json({
+          token: jwtToken,
+          expiresIn: 3600,
+          msg: getUser
+        });
+      }).catch(err => {
+        return res.status(401).json({
+          message: "Authentications failed"
+        });
+      });
     });
+
+
 
 }
 

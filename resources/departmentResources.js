@@ -1,10 +1,12 @@
 const Department = require('../model/departments');
+const authorize = require("../middleware/auth");
+
 
 
 
 module.exports = (app) => {
          // create
-    app.post('/api/d', async (req, res) => {
+    app.post('/api/d', authorize,async (req, res) => {
 
         return await Department.create({
 
@@ -16,7 +18,7 @@ module.exports = (app) => {
             .catch(error => res.status(400).send(error));
     }),
         // get all
-        app.get('/api/d', async (req, res) => {
+        app.get('/api/d', authorize,async (req, res) => {
 
             return await Department.findAll()
                 .then((department) => {
@@ -24,7 +26,7 @@ module.exports = (app) => {
                 }).catch(error => res.status(400).send(error));
         }),
         // update
-        app.put('/api/d/:id', async (req, res) => {
+        app.put('/api/d/:id', authorize,async (req, res) => {
 
             return await Department.update({
                 department: req.body.department,
@@ -41,7 +43,7 @@ module.exports = (app) => {
 
         }),
         // delete
-        app.delete('/api/d/:id', async (req, res) => {
+        app.delete('/api/d/:id', authorize,async (req, res) => {
 
             return await Department.destroy({
                 where: {
@@ -57,7 +59,7 @@ module.exports = (app) => {
         }),
         // get one by id
 
-        app.get('/api/d/:id', async (req, res) => {
+        app.get('/api/d/:id', authorize,async (req, res) => {
             const id = req.params.id;
             return Department.findAll({
                 where: { department_id: id }

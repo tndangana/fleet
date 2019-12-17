@@ -1,10 +1,13 @@
 const FuelTypes = require('../model/fuelTypes');
+const authorize = require("../middleware/auth");
+
+
 
 
 
 module.exports = (app) => {
 
-    app.post('/api/ft', async (req, res) => {
+    app.post('/api/ft', authorize,async (req, res) => {
 
         return await FuelTypes.create({
 
@@ -17,7 +20,7 @@ module.exports = (app) => {
             .catch(error => res.status(400).send(error));
        }),
 
-        app.get('/api/ft', async (req, res) => {
+        app.get('/api/ft',authorize, async (req, res) => {
 
             return await FuelTypes.findAll()
                 .then((fuelTypes) => {
@@ -26,7 +29,7 @@ module.exports = (app) => {
                 .catch(error => res.status(400).send(error));
         }),
 
-        app.put('/api/ft/:id', async (req, res) => {
+        app.put('/api/ft/:id',authorize, async (req, res) => {
 
             return await FuelTypes.update({
                 fuel_type: req.body.fuel_type,
@@ -45,7 +48,7 @@ module.exports = (app) => {
         }),
 
 
-        app.delete('/api/ft/:id', async (req, res) => {
+        app.delete('/api/ft/:id',authorize, async (req, res) => {
 
             return await FuelTypes.destroy({
                 where: {
@@ -61,7 +64,7 @@ module.exports = (app) => {
         }),
 
 
-        app.get('/api/ft/:id', async (req, res) => {
+        app.get('/api/ft/:id',authorize, async (req, res) => {
             const id = req.params.id;
             return FuelTypes.findAll({
                 where: { fuel_type_id: id }

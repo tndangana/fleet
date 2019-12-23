@@ -1,9 +1,9 @@
 ###
 GET  http://localhost:2507/api/u
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1NzY1NzQ0NjIsImV4cCI6MTU3NjU3ODA2Mn0.aN3h6xkSGEpUJxibxw77Dz333wzfupu3oKnTlYtovEM
 
 ###
 POST http://localhost:2507/api/register-user
-
 
 {
     "username": "xavier",
@@ -11,4 +11,13 @@ POST http://localhost:2507/api/register-user
     "contact":"0987265148",
     "user_password": "Password11",
     "is_active":true,
+}
+###
+POST http://localhost:2507/api/signin
+
+Content-Type: application/json
+
+{
+      "username": "xweravier",
+      "user_password": "Password111"
 }

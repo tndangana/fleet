@@ -25,7 +25,9 @@ module.exports = (app) => {
   ,
 
     // get all
-    app.get('/api/u',authorize,async (req, res) => {
+ 
+ 
+    app.get('/api/u',async (req, res) => {
 
       return await User.findAll()
         .then((users) => {
@@ -35,7 +37,7 @@ module.exports = (app) => {
 
 
     // update
-    app.put('/api/u/:id',authorize, async (req, res) => {
+    app.put('/api/u/:id', async (req, res) => {
 
       return await User.update({
         username: req.body.username,
@@ -57,7 +59,7 @@ module.exports = (app) => {
     }),
 
     // destroy
-    app.delete('/api/u/:id',authorize,async (req, res) => {
+    app.delete('/api/u/:id',async (req, res) => {
 
       return await User.destroy({
         where: {
@@ -74,10 +76,10 @@ module.exports = (app) => {
 
 
     // find one by Id
-    app.get('/api/u/:id',authorize,async (req, res) => {
+    app.get('/api/u/:id',async (req, res) => {
       const id = req.params.id;
       return User.findAll({
-        where: { user_id: id }
+        where: { user,_id: id }
       }).then(user => {
         res.json(user);
       }).catch(function (err) {
@@ -88,10 +90,10 @@ module.exports = (app) => {
     })
     ,
 
-    app.post("/api/signin", async (req, res, next) => {
+    app.post("/api/user/login", async (req, res, next) => {
       let getUser;
 
-     await  User.findAll({
+       await  User.findAll({
         where: { username: req.body.username }
       }).then( async user => {
         if (!user) {
@@ -99,8 +101,6 @@ module.exports = (app) => {
             message: "Authentication failed"
           });
         }
-       
-
         getUser = await user;
               console.log(req.body.user_password);
               console.log(`useruser`,getUser[0].dataValues.user_password);

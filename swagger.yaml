@@ -1,0 +1,600 @@
+swagger: "2.0"
+info:
+  description: "This is a sample server fleet management system server.  You can find out more about     Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).      For this sample, you can use the api key `special-key` to test the authorization     filters."
+  version: "1.0.0"
+  title: "Adrian Fleet System"
+tags:
+
+  externalDocs:
+    description: "Find out more"
+    url: "https://imprintaf.com/"
+
+
+consumes:
+  - application/json
+produces:
+  - application/json
+securityDefinitions:
+  key:
+    type: apiKey
+    in: header
+    name: x-token
+security:
+  - key: []
+schemes:
+- "http"
+- "https"
+
+paths:
+  # -----------------------------------------------------------USER API START------------------------------------------------------------
+  /api/u:
+    get:
+      tags:
+      - "user"
+      summary: "get all users"
+      description: ""
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"     
+      responses:
+        200:
+          description: "Success"
+        404:
+          description: "No content"
+
+  /api/u/{id}: 
+    put:
+      tags:
+      - "user"
+      summary: "Updated user"
+      description: "This can only be done by the logged in user."
+      operationId: "updateUser"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "user id that need to be updated"
+        required: true
+        type: "integer"
+      - in: "body"
+        name: "user"
+        description: "Updated user object"
+        required: true
+        schema:
+          $ref: "#/definitions/User"
+      responses:
+        400:
+          description: "Invalid user supplied"
+        404:
+          description: "User not found"
+    delete:
+      tags:
+      - "user"
+      summary: "Delete user"
+      description: "This can only be done by the logged in user."
+      operationId: "deleteUser"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "username"
+        in: "path"
+        description: "The user id that needs to be deleted"
+        required: true
+        type: "integer"
+      responses:
+        400:
+          description: "Invalid username supplied"
+        404:
+          description: "User not found"
+    
+    get:
+      tags:
+      - "user"
+      summary: "Find user by ID"
+      description: "Returns a single user"
+      operationId: "getUserById"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID of user to return"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "successful operation"
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "User not found"
+    
+  /api/user/login:
+    post:
+      tags:
+      - "user"
+      summary: "Logs user into the system"
+      description: ""
+      operationId: "loginUser"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "user"
+        description: "Created user object"
+        required: true
+        schema:
+             $ref: "#/definitions/UserCred"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "string"
+          headers:
+            X-Rate-Limit:
+              type: "integer"
+              format: "int32"
+              description: "calls per hour allowed by the user"
+            X-Expires-After:
+              type: "string"
+              format: "date-time"
+              description: "date in UTC when token expires"
+        400:
+          description: "Invalid username/password supplied"
+
+  /api/register-user:
+    post:
+      tags:
+      - "user"
+      summary: "Create user"
+      description: "This can only be done by the logged in user."
+      operationId: "createUser"
+      produces:
+      - "application/json"
+      - "application/xml"
+      parameters:
+      - in: "body"
+        name: "user"
+        description: "Created user object"
+        required: true
+        schema:
+            $ref: "#/definitions/User"
+      responses:
+        default:
+          description: "successful operation"
+  
+          # ------------------------------------------------- USER API END--------------------------------------------------------------------#
+          # ------------------------------------------------- COMPANY API START--------------------------------------------------------------------#
+  /api/c:
+    get:
+      tags:
+      - "company"
+      summary: "get company list"
+      description: "get all companies"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"     
+      responses:
+        200:
+          description: "Success"
+        404:
+          description: "No content"
+    post:
+      tags:
+      - "company"
+      summary: "Create company"
+      description: "This can only be done by the logged in user."
+      operationId: "createacompany"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "company"
+        description: "Created company object"
+        required: true
+        schema:
+             $ref: "#/definitions/Company"
+      responses:
+        default:
+          description: "successful operation"
+  
+  /api/c/{id}: 
+    put:
+      tags:
+      - "company"
+      summary: "Update company"
+      description: "This can only be done by the logged in user."
+      operationId: "updateCompany"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "company id that need to be updated"
+        required: true
+        type: "integer"
+      - in: "body"
+        name: "company"
+        description: "Updated company object"
+        required: true
+        schema:
+          $ref: "#/definitions/Company"
+      responses:
+        400:
+          description: "Invalid user supplied"
+        404:
+          description: "Company not found"
+            
+    get:
+      tags:
+      - "company"
+      summary: "Find Company by ID"
+      description: "Returns a single company"
+      operationId: "getCompanyById"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID of company to return"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "successful operation"
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Company not found"
+    
+    delete:
+      tags:
+      - "company"
+      summary: "Delete company"
+      description: "This can only be done by the logged in user."
+      operationId: "deleteCompany"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "The company id that needs to be deleted"
+        required: true
+        type: "integer"
+      responses:
+        400:
+          description: "Invalid id supplied"
+        404:
+          description: "Company not found"
+  
+
+
+definitions:
+  # schemas:
+    UserCred:
+      type: object
+      required:
+      - username
+      - user_password
+      properties:
+        username:
+         type: string
+         format: string
+        user_password:
+          type: string
+          format : string;
+    
+    User:
+      type: object
+      required:
+      - username
+      - email_address
+      - contact
+      - user_password
+      properties:
+        user_id:
+         type: integer
+         format: int64
+         readOnly: true
+        username:
+          type: string
+        email_address:
+          type: string
+        contact: 
+          type: string
+        user_password:
+          type: string
+        is_active:
+          type: boolean
+
+    Company:
+      type: object
+      required:
+      - company_name
+      - created_by
+      - updated_by
+      properties:
+        company_id:
+          type: integer
+          format: int64
+          readOnly: true
+        company_name:
+          type: string
+        created_by:
+          type: integer
+          format: int64
+        updated_by: 
+          type: integer
+          format: int64
+      
+    Department:
+      type: object
+      properties:
+        department_id:
+          type: integer
+        department:
+          type: string
+        created_by:
+          type: integer
+        updated_by: 
+          type: integer
+
+    Driver:
+      type: object
+      properties:
+        driver_id:
+          type: integer
+          format: int64
+        vehicle_id:
+          type: integer
+          format: int64
+        company_id:
+          type: integer
+          format: int64
+        user_id:
+          type: integer
+          format: int64
+        created_by:
+          type: integer
+          format: int64
+        updated_by: 
+          type: integer
+          format: int64
+
+    Fuel Request Payment:
+      type: object
+      properties:
+        payment_id:
+          type: integer
+          format: int64
+        amount_paid:
+          type: number
+        fuel_request_id:
+           type: integer
+           format: int64
+        paid_by:
+           type: integer
+        created_by:
+          type: integer
+          format: int64
+        updated_by: 
+          type: integer
+          format: int64
+
+    Fuel Request Receipt attachment:
+      type: object
+      properties:
+        attachment_id:
+          type: integer
+          format: int64
+        attachment_path:
+          type: string
+        fuel_request_id:
+           type: integer
+           format: int64
+        created_by:
+          type: integer
+          format: int64
+        updated_by: 
+          type: integer
+          format: int64
+
+    Fuel Request Receipt attachment:
+      type: object
+      properties:
+        fuel_request_id:
+          type: integer
+          format: int64
+        department_id:
+          type: integer
+          format: int64
+        project_id:
+           type: integer
+           format: int64
+        vehicle_id:
+           type: integer
+        paybill_number:
+           type: integer
+           format: int64
+        driver_id:
+            type: integer
+            format: int64
+        current_odometer:
+            type: double
+        fuel_vendor:
+             type: string
+        fuel_quantity:
+              type: double
+        price_per_quantity:
+              type: number
+        is_approved:
+               type: boolean
+        created_by:
+              type: integer
+              format: int64
+        updated_by: 
+              type: integer
+              format: int64
+
+    Fuel Types:
+      type: object
+      properties:
+        fuel_type_id:
+          type: integer
+          format: int64
+        fuel_type:
+          type: string
+        created_by:
+          type: integer
+          format: int64
+        updated_by: 
+          type: integer
+          format: int64
+
+    Project:
+      type: object
+      properties:
+        project_id:
+          type: integer
+          format: int64
+        project:
+          type: string
+        is_active:
+           type: boolean
+        department_id:
+           type: integer  
+           format: int64
+        created_by:
+          type: integer
+          format: int64
+        updated_by: 
+          type: integer
+          format: int64
+      
+    
+    Vehicle Make:
+      type: object
+      properties:
+        make_id:
+          type: integer
+          format: int64
+        vehicle_make:
+          type: string
+        vehicle_make_logo_path:
+          type: string 
+        created_by:
+          type: integer
+          format: int64
+        updated_by: 
+          type: integer
+          format: int64
+      
+    Vehicle Model:
+      type: object
+      properties:
+        vehicle_model_id:
+          type: integer
+          format: int64
+        model_name:
+          type: string
+        make_id:
+          type: integer 
+          format: int64
+        created_by:
+          type: integer
+          format: int64
+        updated_by: 
+          type: integer
+          format: int64
+
+        
+    Vehicle Ownership Type:
+      type: object
+      properties:
+        ownership_type_id:
+          type: integer
+          format: int64
+        ownership_type:
+          type: string
+        created_by:
+          type: integer
+          format: int64
+        updated_by: 
+          type: integer
+          format: int64
+    
+    Vehicle :
+      type: object
+      properties:
+        vehicle_id:
+          type: integer
+          format: int64
+        license_plate:
+          type: string
+        odometer_value:
+          type: double
+        vehicle_make_id:
+          type: integer
+          format: int64
+        vehicle_model_id:
+          type: integer
+          format: int64
+        vehicle_model_year:
+          type: string
+        vehicle_ownership_id:
+          type: integer
+        fuel_type_id:
+           type: integer
+           format: int64
+        created_by:
+          type: integer
+          format: int64
+        updated_by: 
+          type: integer
+          format: int64
+
+            
+    Vehicle Type:
+      type: object
+      properties:
+        vehicle_type_id:
+          type: integer
+          format: int64
+        vehicle_type:
+          type: string
+        created_by:
+          type: integer
+          format: int64
+        updated_by: 
+          type: integer
+          format: int64
+
+securitySchemes:
+    bearerAuth:            # arbitrary name for the security scheme
+      type: http
+      scheme: bearer
+      bearerFormat: JWT    # optional, arbitrary value for documentation purposes
+# 2) Apply the security globally to all operations
+security:
+  - bearerAuth: []  
+
+   
+      
+
+    
+
+    
+
+
+
+
+       
+    
+        

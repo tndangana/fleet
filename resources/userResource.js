@@ -27,7 +27,7 @@ module.exports = (app) => {
     // get all
  
  
-    app.get('/api/u',async (req, res) => {
+    app.get('/api/u',authorize,async (req, res) => {
 
       return await User.findAll()
         .then((users) => {
@@ -37,7 +37,7 @@ module.exports = (app) => {
 
 
     // update
-    app.put('/api/u/:id', async (req, res) => {
+    app.put('/api/u/:id',authorize ,async (req, res) => {
 
       return await User.update({
         username: req.body.username,
@@ -59,7 +59,7 @@ module.exports = (app) => {
     }),
 
     // destroy
-    app.delete('/api/u/:id',async (req, res) => {
+    app.delete('/api/u/:id',authorize,async (req, res) => {
 
       return await User.destroy({
         where: {
@@ -76,7 +76,7 @@ module.exports = (app) => {
 
 
     // find one by Id
-    app.get('/api/u/:id',async (req, res) => {
+    app.get('/api/u/:id',authorize,async (req, res) => {
       const id = req.params.id;
       return User.findAll({
         where: { user,_id: id }

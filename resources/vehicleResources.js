@@ -6,7 +6,7 @@ const authorize = require("../middleware/auth");
 
 module.exports = (app) => {
 
-    app.post('/api/vh', authorize,async (req, res) => {
+    app.post('/api/vh', authorize, async (req, res) => {
 
         return await Vehicle.create({
             license_plate: req.body.license_plate,
@@ -22,7 +22,7 @@ module.exports = (app) => {
         }).then((vehicle) => res.status(201).send(vehicle))
             .catch(error => res.status(400).send(error));
     }),
-        app.get('/api/vh', authorize,async (req, res) => {
+        app.get('/api/vh', authorize, async (req, res) => {
 
             return await Vehicle.findAll()
                 .then((vehicle) => {
@@ -30,7 +30,7 @@ module.exports = (app) => {
                 }).catch(error => res.status(400).send(error));
         }),
 
-        app.put('/api/vh/:id',authorize, async (req, res) => {
+        app.put('/api/vh/:id', authorize, async (req, res) => {
 
             return await Vehicle.update({
                 license_plate: req.body.license_plate,
@@ -54,7 +54,7 @@ module.exports = (app) => {
 
         }),
 
-        app.delete('/api/vh/:id',authorize, async (req, res) => {
+        app.delete('/api/vh/:id', authorize, async (req, res) => {
 
             return await Vehicle.destroy({
                 where: {
@@ -69,7 +69,7 @@ module.exports = (app) => {
             })
         }),
 
-        app.get('/api/vh/:id',authorize, async (req, res) => {
+        app.get('/api/vh/:id', authorize, async (req, res) => {
             const id = req.params.id;
             return Vehicle.findAll({
                 where: { vehicle_id: id }

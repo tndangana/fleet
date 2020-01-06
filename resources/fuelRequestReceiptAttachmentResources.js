@@ -18,7 +18,7 @@ module.exports = (app) => {
             .catch(error => res.status(400).send(error));
     }),
 
-        app.get('/api/fr',authorize, async (req, res) => {
+        app.get('/api/fr', async (req, res) => {
 
             return await FuelRequestReceiptAttachment.findAll()
                 .then((fuelRequestReceiptAttachment) => {

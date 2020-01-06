@@ -37,13 +37,7 @@ module.exports = db.define('user', {
 }, {
     timestamps: true,
     freezeTableName: true,
-    hooks: {
-      beforeCreate: (user,options) => {
-       console.log(`tapinda here ..........!!!!!!!`)
-      }
-  }
-      
- 
+
 });
 
 

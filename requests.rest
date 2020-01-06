@@ -1,23 +1,30 @@
-###
-GET  http://localhost:2507/api/u
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1NzY1NzQ0NjIsImV4cCI6MTU3NjU3ODA2Mn0.aN3h6xkSGEpUJxibxw77Dz333wzfupu3oKnTlYtovEM
+
+##Set global url here
+@baseUrl = http://localhost:2507/api
+
 
 ###
-POST http://localhost:2507/api/register-user
+GET  {{baseUrl}}/u
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1NzgzNDkxMjcsImV4cCI6MTU3ODM1MjcyN30.SQaxnNNXHE6tG2MEmYxCuj4OXOez06KYcQXjcWjJE-U
+
+###
+POST {{baseUrl}}/register-user HTTP/1.1
+content-type: application/json
 
 {
-    "username": "xavier",
-    "email_address": "x@gmail.com",
-    "contact":"0987265148",
-    "user_password": "Password11",
-    "is_active":true,
+  "username": "tp",
+  "email_address": "tipain@imprint",
+  "contact": "0772275148v",
+  "user_password": "P@zzW0rD!!",
+  "is_active": true
 }
-###
-POST http://localhost:2507/api/signin
 
-Content-Type: application/json
+###  login 
+POST {{baseUrl}}/user/login HTTP/1.1
+content-type: application/json
 
 {
-      "username": "xweravier",
-      "user_password": "Password111"
+      "username": "tpainv",
+      "user_password": "P@zzW0rD!!"
 }
+

@@ -4,108 +4,113 @@ info:
   version: "1.0.0"
   title: "Adrian Fleet System"
 tags:
-
   externalDocs:
     description: "Find out more"
     url: "https://imprintaf.com/"
-
 
 consumes:
   - application/json
 produces:
   - application/json
-securityDefinitions:
-  key:
-    type: apiKey
-    in: header
-    name: x-token
-security:
-  - key: []
 schemes:
-- "http"
-- "https"
+  - "http"
+  - "https"
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
 
 paths:
   # -----------------------------------------------------------USER API START------------------------------------------------------------
   /api/u:
     get:
       tags:
-      - "user"
+        - "user"
       summary: "get all users"
       description: ""
       consumes:
-      - "application/json"
+        - "application/json"
       produces:
-      - "application/json"     
+        - "application/json"
+      security:
+        - Bearer: []
       responses:
         200:
           description: "Success"
         404:
           description: "No content"
 
-  /api/u/{id}: 
+  /api/u/{id}:
     put:
       tags:
-      - "user"
+        - "user"
       summary: "Updated user"
       description: "This can only be done by the logged in user."
       operationId: "updateUser"
       produces:
-      - "application/xml"
-      - "application/json"
+        - "application/xml"
+        - "application/json"
+      security:
+        - Bearer: []
       parameters:
-      - name: "id"
-        in: "path"
-        description: "user id that need to be updated"
-        required: true
-        type: "integer"
-      - in: "body"
-        name: "user"
-        description: "Updated user object"
-        required: true
-        schema:
-          $ref: "#/definitions/User"
+        - name: "id"
+          in: "path"
+          description: "user id that need to be updated"
+          required: true
+          type: "integer"
+        - in: "body"
+          name: "user"
+          description: "Updated user object"
+          required: true
+          schema:
+            $ref: "#/definitions/User"
       responses:
         400:
           description: "Invalid user supplied"
         404:
           description: "User not found"
+
     delete:
       tags:
-      - "user"
+        - "user"
       summary: "Delete user"
       description: "This can only be done by the logged in user."
       operationId: "deleteUser"
       produces:
-      - "application/xml"
-      - "application/json"
+        - "application/xml"
+        - "application/json"
+      security:
+        - Bearer: []
       parameters:
-      - name: "username"
-        in: "path"
-        description: "The user id that needs to be deleted"
-        required: true
-        type: "integer"
+        - name: "username"
+          in: "path"
+          description: "The user id that needs to be deleted"
+          required: true
+          type: "integer"
       responses:
         400:
           description: "Invalid username supplied"
         404:
           description: "User not found"
-    
+
     get:
       tags:
-      - "user"
+        - "user"
       summary: "Find user by ID"
       description: "Returns a single user"
       operationId: "getUserById"
       produces:
-      - "application/json"
+        - "application/json"
+      security:
+        - Bearer: []
       parameters:
-      - name: "id"
-        in: "path"
-        description: "ID of user to return"
-        required: true
-        type: "integer"
-        format: "int64"
+        - name: "id"
+          in: "path"
+          description: "ID of user to return"
+          required: true
+          type: "integer"
+          format: "int64"
       responses:
         200:
           description: "successful operation"
@@ -113,23 +118,23 @@ paths:
           description: "Invalid ID supplied"
         404:
           description: "User not found"
-    
+
   /api/user/login:
     post:
       tags:
-      - "user"
+        - "user"
       summary: "Logs user into the system"
       description: ""
       operationId: "loginUser"
       produces:
-      - "application/json"
+        - "application/json"
       parameters:
-      - in: "body"
-        name: "user"
-        description: "Created user object"
-        required: true
-        schema:
-             $ref: "#/definitions/UserCred"
+        - in: "body"
+          name: "user"
+          description: "Created user object"
+          required: true
+          schema:
+            $ref: "#/definitions/UserCred"
       responses:
         200:
           description: "successful operation"
@@ -150,36 +155,37 @@ paths:
   /api/register-user:
     post:
       tags:
-      - "user"
+        - "user"
       summary: "Create user"
       description: "This can only be done by the logged in user."
       operationId: "createUser"
       produces:
-      - "application/json"
-      - "application/xml"
+        - "application/json"
+        - "application/xml"
       parameters:
-      - in: "body"
-        name: "user"
-        description: "Created user object"
-        required: true
-        schema:
+        - in: "body"
+          name: "user"
+          description: "Created user object"
+          required: true
+          schema:
             $ref: "#/definitions/User"
       responses:
         default:
           description: "successful operation"
-  
           # ------------------------------------------------- USER API END--------------------------------------------------------------------#
           # ------------------------------------------------- COMPANY API START--------------------------------------------------------------------#
   /api/c:
     get:
       tags:
-      - "company"
+        - "company"
       summary: "get company list"
       description: "get all companies"
       consumes:
-      - "application/json"
+        - "application/json"
       produces:
-      - "application/json"     
+        - "application/json"
+      security:
+        - Bearer: []
       responses:
         200:
           description: "Success"
@@ -187,65 +193,71 @@ paths:
           description: "No content"
     post:
       tags:
-      - "company"
+        - "company"
       summary: "Create company"
       description: "This can only be done by the logged in user."
       operationId: "createacompany"
       produces:
-      - "application/json"
+        - "application/json"
+      security:
+        - Bearer: []
       parameters:
-      - in: "body"
-        name: "company"
-        description: "Created company object"
-        required: true
-        schema:
-             $ref: "#/definitions/Company"
+        - in: "body"
+          name: "company"
+          description: "Created company object"
+          required: true
+          schema:
+            $ref: "#/definitions/Company"
       responses:
         default:
           description: "successful operation"
-  
-  /api/c/{id}: 
+
+  /api/c/{id}:
     put:
       tags:
-      - "company"
+        - "company"
       summary: "Update company"
       description: "This can only be done by the logged in user."
       operationId: "updateCompany"
       produces:
-      - "application/json"
+        - "application/json"
+      security:
+        - Bearer: []
       parameters:
-      - name: "id"
-        in: "path"
-        description: "company id that need to be updated"
-        required: true
-        type: "integer"
-      - in: "body"
-        name: "company"
-        description: "Updated company object"
-        required: true
-        schema:
-          $ref: "#/definitions/Company"
+        - name: "id"
+          in: "path"
+          description: "company id that need to be updated"
+          required: true
+          type: "integer"
+        - in: "body"
+          name: "company"
+          description: "Updated company object"
+          required: true
+          schema:
+            $ref: "#/definitions/Company"
       responses:
         400:
           description: "Invalid user supplied"
         404:
           description: "Company not found"
-            
+
     get:
       tags:
-      - "company"
+        - "company"
       summary: "Find Company by ID"
       description: "Returns a single company"
       operationId: "getCompanyById"
       produces:
-      - "application/json"
+        - "application/json"
+      security:
+        - Bearer: []
       parameters:
-      - name: "id"
-        in: "path"
-        description: "ID of company to return"
-        required: true
-        type: "integer"
-        format: "int64"
+        - name: "id"
+          in: "path"
+          description: "ID of company to return"
+          required: true
+          type: "integer"
+          format: "int64"
       responses:
         200:
           description: "successful operation"
@@ -253,348 +265,1831 @@ paths:
           description: "Invalid ID supplied"
         404:
           description: "Company not found"
-    
+
     delete:
       tags:
-      - "company"
+        - "company"
       summary: "Delete company"
       description: "This can only be done by the logged in user."
       operationId: "deleteCompany"
       produces:
-      - "application/json"
+        - "application/json"
+      security:
+        - Bearer: []
       parameters:
-      - name: "id"
-        in: "path"
-        description: "The company id that needs to be deleted"
-        required: true
-        type: "integer"
+        - name: "id"
+          in: "path"
+          description: "The company id that needs to be deleted"
+          required: true
+          type: "integer"
       responses:
         400:
           description: "Invalid id supplied"
         404:
           description: "Company not found"
+  # ------------------------------------------------- Company API END--------------------------------------------------------------------#
+
+  # ------------------------------------------------- Department  API START--------------------------------------------------------------------#
+
+  /api/d:
+    get:
+      tags:
+        - "department"
+      summary: "get department list"
+      description: "get all departments"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      security:
+        - Bearer: []
+      responses:
+        200:
+          description: "Success"
+        404:
+          description: "No content"
+
+    post:
+      tags:
+        - "department"
+      summary: "Create department"
+      description: "This can only be done by the logged in user."
+      operationId: "createadepartment"
+      produces:
+        - "application/json"
+      security:
+        - Bearer: []
+      parameters:
+        - in: "body"
+          name: "department"
+          description: "Created department object"
+          required: true
+          schema:
+            $ref: "#/definitions/Department"
+      responses:
+        default:
+          description: "successful operation"
+
+  /api/d/{id}:
+    put:
+      tags:
+        - "department"
+      summary: "Update department"
+      description: "This can only be done by the logged in user."
+      operationId: "updateDepartment"
+      produces:
+        - "application/json"
+      security:
+        - Bearer: []
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "department id that need to be updated"
+          required: true
+          type: "integer"
+        - in: "body"
+          name: "department"
+          description: "Updated department object"
+          required: true
+          schema:
+            $ref: "#/definitions/Department"
+      responses:
+        400:
+          description: "Invalid user supplied"
+        404:
+          description: "Department not found"
+
+    get:
+      tags:
+        - "department"
+      summary: "Find Department by ID"
+      description: "Returns a single company"
+      operationId: "getDepartmentById"
+      produces:
+        - "application/json"
+      security:
+        - Bearer: []
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of department to return"
+          required: true
+          type: "integer"
+          format: "int64"
+      responses:
+        200:
+          description: "successful operation"
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Department not found"
+
+    delete:
+      tags:
+        - "department"
+      summary: "Delete department"
+      description: "This can only be done by the logged in user."
+      operationId: "deleteDepartment"
+      produces:
+        - "application/json"
+      security:
+        - Bearer: []
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "The department id that needs to be deleted"
+          required: true
+          type: "integer"
+      responses:
+        400:
+          description: "Invalid id supplied"
+        404:
+          description: "Department not found"
+
+  # # ------------------------------------------------- Department  API END--------------------------------------------------------------------#
+
+  # # ------------------------------------------------- Driver  API START--------------------------------------------------------------------#
+
+  /api/dr:
+    get:
+      tags:
+        - "driver"
+      summary: "get driver list"
+      description: "get all drivers"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      security:
+        - Bearer: []
+      responses:
+        200:
+          description: "Success"
+        404:
+          description: "No content"
+
+    post:
+      tags:
+        - "driver"
+      summary: "Create driver"
+      description: "This can only be done by the logged in user."
+      operationId: "createaDriver"
+      produces:
+        - "application/json"
+      security:
+        - Bearer: []
+      parameters:
+        - in: "body"
+          name: "driver"
+          description: "Created driver object"
+          required: true
+          schema:
+            $ref: "#/definitions/Driver"
+      responses:
+        default:
+          description: "successful operation"
+
+  /api/dr/{id}:
+    put:
+      tags:
+        - "driver"
+      summary: "Update driver"
+      description: "This can only be done by the logged in user."
+      operationId: "updateDriver"
+      produces:
+        - "application/json"
+      security:
+        - Bearer: []
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "driver id that need to be updated"
+          required: true
+          type: "integer"
+        - in: "body"
+          name: "driver"
+          description: "Updated driver object"
+          required: true
+          schema:
+            $ref: "#/definitions/Driver"
+      responses:
+        400:
+          description: "Invalid user supplied"
+        404:
+          description: "Driver not found"
+
+    get:
+      tags:
+        - "driver"
+      summary: "Find Driver by ID"
+      description: "Returns a single company"
+      operationId: "getDriverById"
+      produces:
+        - "application/json"
+      security:
+        - Bearer: []
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of driver to return"
+          required: true
+          type: "integer"
+          format: "int64"
+      responses:
+        200:
+          description: "successful operation"
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Driver not found"
+
+    delete:
+      tags:
+        - "driver"
+      summary: "Delete driver"
+      description: "This can only be done by the logged in user."
+      operationId: "deleteDriver"
+      produces:
+        - "application/json"
+      security:
+        - Bearer: []
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "The driver id that needs to be deleted"
+          required: true
+          type: "integer"
+      responses:
+        400:
+          description: "Invalid id supplied"
+        404:
+          description: "Driver not found"
+  #         # ------------------------------------------------- Driver  API END--------------------------------------------------------------------#
+
+  #     # ------------------------------------------------- Fuel Request Payment  API START--------------------------------------------------------------------#
+
+  /api/f:
+    get:
+      tags:
+        - "Fuel Request Payment"
+      summary: "get fuel payment list"
+      description: "get all fuel payments"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      security:
+        - Bearer: []
+
+      responses:
+        200:
+          description: "Success"
+        404:
+          description: "No content"
+
+    post:
+      tags:
+        - "Fuel Request Payment"
+      summary: "Create fuel payments"
+      description: "This can only be done by the logged in user."
+      operationId: "createaFuelPayments"
+      produces:
+        - "application/json"
+      security:
+        - Bearer: []
+      parameters:
+        - in: "body"
+          name: "Fuel Request Payment"
+          description: "Created Fuel Request Payment object"
+          required: true
+          schema:
+            $ref: "#/definitions/Fuel Request Payment"
+      responses:
+        default:
+          description: "successful operation"
+
+  /api/f/{id}:
+    put:
+      tags:
+        - "Fuel Request Payment"
+      summary: "Update Fuel Request Payment"
+      description: "This can only be done by the logged in user."
+      operationId: "updateFuelRequestPayment"
+      produces:
+        - "application/json"
+      security:
+        - Bearer: []
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "Fuel Request Payment id that need to be updated"
+          required: true
+          type: "integer"
+        - in: "body"
+          name: "Fuel Request Payment"
+          description: "Updated Fuel Request Payment object"
+          required: true
+          schema:
+            $ref: "#/definitions/Fuel Request Payment"
+      responses:
+        400:
+          description: "Invalid user supplied"
+        404:
+          description: "Fuel Request Payment not found"
+
+    get:
+      tags:
+        - "Fuel Request Payment"
+      summary: "Find Fuel Request Payment by ID"
+      description: "Returns a single Fuel Request Payment"
+      operationId: "getFuelRequestPaymentId"
+      produces:
+        - "application/json"
+      security:
+        - Bearer: []
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of driver to return"
+          required: true
+          type: "integer"
+          format: "int64"
+      responses:
+        200:
+          description: "successful operation"
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Fuel Request Payment not found"
+
+    delete:
+      tags:
+        - "Fuel Request Payment"
+      summary: "Delete Fuel Request Payment"
+      description: "This can only be done by the logged in user."
+      operationId: "deleteFuelRequestPayment"
+      produces:
+        - "application/json"
+      security:
+        - Bearer: []
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "The Fuel Request Payment id that needs to be deleted"
+          required: true
+          type: "integer"
+      responses:
+        400:
+          description: "Invalid id supplied"
+        404:
+          description: "Fuel Request Payment not found"
+
+  # ------------------------------------------------- FUEL REQUEST PAYMENT  API END--------------------------------------------------------------------#
+
+  # ------------------------------------------------- Fuel Request Receipt Attachment  API START--------------------------------------------------------------------#
+  /api/fr:
+      get:
+        tags:
+          - "Fuel Request Receipt Attachment"
+        summary: "Get Fuel Request Receipt Attachment List"
+        description: "Get All Request Receipt Attachments"
+        consumes:
+          - "application/json"
+        produces:
+          - "application/json"
+        security:
+        - Bearer: []
+        responses:
+          200:
+            description: "Success"
+          404:
+            description: "No content"
+
+      post:
+        tags:
+          - "Fuel Request Receipt Attachment"
+        summary: "Create Fuel Request Receipt Attachment"
+        description: "This can only be done by the logged in user."
+        operationId: "createFuelRequestReceiptAttachmentId"
+        produces:
+          - "application/json"
+        security:
+          - Bearer: []
+        parameters:
+          - in: "body"
+            name: "Fuel Request Receipt Attachment"
+            description: "Created Fuel Request Receipt Attachment object"
+            required: true
+            schema:
+              $ref: "#/definitions/Fuel Request Receipt Attachment"
+        responses:
+          default:
+            description: "successful operation"
+
+  /api/fr/{id}:
+    put:
+      tags:
+        - "Fuel Request Receipt Attachment"
+      summary: "Update Fuel Request Receipt Attachment"
+      description: "This can only be done by the logged in user."
+      operationId: "updateFuelRequestReceiptAttachmentId"
+      produces:
+        - "application/json"
+      security:
+        - Bearer: []
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "Fuel Request Receipt Attachment id that need to be updated"
+          required: true
+          type: "integer"
+        - in: "body"
+          name: "Fuel Request Receipt Attachment"
+          description: "Updated Fuel Request Receipt Attachment object"
+          required: true
+          schema:
+            $ref: "#/definitions/Fuel Request Receipt Attachment"
+      responses:
+        400:
+          description: "Invalid id supplied"
+        404:
+          description: "Fuel Request Receipt Attachment not found"
+
+    get:
+      tags:
+        - "Fuel Request Receipt Attachment"
+      summary: "Find Fuel Request Receipt Attachment by ID"
+      description: "Returns a single Fuel Request Receipt Attachment"
+      operationId: "getFuelRequestPaymentId"
+      produces:
+        - "application/json"
+      security:
+        - Bearer: []
+        
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of Fuel Request Receipt Attachment to return"
+          required: true
+          type: "integer"
+          format: "int64"
+      responses:
+        200:
+          description: "successful operation"
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Fuel Request Receipt Attachment not found"
+
+    delete:
+      tags:
+        - "Fuel Request Receipt Attachment"
+      summary: "Delete Fuel Request Receipt Attachment"
+      description: "This can only be done by the logged in user."
+      operationId: "deleteFuelRequestReceiptAttachment"
+      produces:
+        - "application/json"
+      security:
+        - Bearer: []
+        
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "The Fuel Request Receipt Attachment id that needs to be deleted"
+          required: true
+          type: "integer"
+      responses:
+        400:
+          description: "Invalid id supplied"
+        404:
+          description: "Fuel Request Receipt Attachment not found"
+
+  # ------------------------------------------------- Fuel Request   API START--------------------------------------------------------------------#
+  /api/fr:
+      get:
+        tags:
+          - "Fuel Request Receipt Attachment"
+        summary: "Get Fuel Request Receipt Attachment List"
+        description: "Get All Request Receipt Attachments"
+        consumes:
+          - "application/json"
+        produces:
+          - "application/json"
+        security:
+        - Bearer: []
+          
+        responses:
+          200:
+            description: "Success"
+          404:
+            description: "No content"
+
+      post:
+        tags:
+          - "Fuel Request Receipt Attachment"
+        summary: "Create Fuel Request Receipt Attachment"
+        description: "This can only be done by the logged in user."
+        operationId: "createFuelRequestReceiptAttachmentId"
+        produces:
+          - "application/json"
+        security:
+        - Bearer: []
+        parameters:
+          - in: "body"
+            name: "Fuel Request Receipt Attachment"
+            description: "Created Fuel Request Receipt Attachment object"
+            required: true
+            schema:
+              $ref: "#/definitions/Fuel Request Receipt Attachment"
+        responses:
+          default:
+            description: "successful operation"
+
+  /api/fr/{id}:
+    put:
+      tags:
+        - "Fuel Request Receipt Attachment"
+      summary: "Update Fuel Request Receipt Attachment"
+      description: "This can only be done by the logged in user."
+      operationId: "updateFuelRequestReceiptAttachmentId"
+      produces:
+        - "application/json"
+      security:
+        - Bearer: []
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "Fuel Request Receipt Attachment id that need to be updated"
+          required: true
+          type: "integer"
+        - in: "body"
+          name: "Fuel Request Receipt Attachment"
+          description: "Updated Fuel Request Receipt Attachment object"
+          required: true
+          schema:
+            $ref: "#/definitions/Fuel Request Receipt Attachment"
+      responses:
+        400:
+          description: "Invalid id supplied"
+        404:
+          description: "Fuel Request Receipt Attachment not found"
+
+    get:
+      tags:
+        - "Fuel Request Receipt Attachment"
+      summary: "Find Fuel Request Receipt Attachment by ID"
+      description: "Returns a single Fuel Request Receipt Attachment"
+      operationId: "getFuelRequestPaymentId"
+      produces:
+        - "application/json"
+      security:
+        - Bearer: []
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of Fuel Request Receipt Attachment to return"
+          required: true
+          type: "integer"
+          format: "int64"
+      responses:
+        200:
+          description: "successful operation"
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Fuel Request Receipt Attachment not found"
+
+    delete:
+      tags:
+        - "Fuel Request Receipt Attachment"
+      summary: "Delete Fuel Request Receipt Attachment"
+      description: "This can only be done by the logged in user."
+      operationId: "deleteFuelRequestReceiptAttachment"
+      produces:
+        - "application/json"
+      security:
+        - Bearer: []
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "The Fuel Request Receipt Attachment id that needs to be deleted"
+          required: true
+          type: "integer"
+      responses:
+        400:
+          description: "Invalid id supplied"
+        404:
+          description: "Fuel Request Receipt Attachment not found"
+
+
+# ------------------------------------------------- Fuel Type   API START--------------------------------------------------------------------#
+  /api/ft:
+      get:
+        tags:
+          - "Fuel Type"
+        summary: "Get Fuel Type List"
+        description: "Get Fuel Type List"
+        consumes:
+          - "application/json"
+        produces:
+          - "application/json"
+        security:
+        - Bearer: []
+        responses:
+          200:
+            description: "Success"
+          404:
+            description: "No content"
+
+      post:
+        tags:
+          - "Fuel Type"
+        summary: "Create Fuel Type Object"
+        description: "This can only be done by the logged in user."
+        operationId: "createFuelTypeId"
+        produces:
+          - "application/json"
+        security:
+         - Bearer: []
+        parameters:
+          - in: "body"
+            name: "Fuel Type"
+            description: "Create Fuel Type object"
+            required: true
+            schema:
+              $ref: "#/definitions/Fuel Types"
+        responses:
+          default:
+            description: "successful operation"
+
+  /api/ft/{id}:
+    put:
+      tags:
+        - "Fuel Type"
+      summary: "Update Fuel Request Receipt Attachment"
+      description: "This can only be done by the logged in user."
+      operationId: "updateFuelRequestReceiptAttachmentId"
+      produces:
+        - "application/json"
+      security:
+        - Bearer: []
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "Fuel Type id that need to be updated"
+          required: true
+          type: "integer"
+        - in: "body"
+          name: "Fuel Type"
+          description: "Updated  Fuel Type object"
+          required: true
+          schema:
+            $ref: "#/definitions/Fuel Types"
+      responses:
+        400:
+          description: "Invalid id supplied"
+        404:
+          description: "Fuel Type not found"
+
+    get:
+      tags:
+        - "Fuel Type"
+      summary: "Find  Fuel Type by ID"
+      description: "Returns a single  Fuel Type"
+      operationId: "getFuelTypeId"
+      produces:
+        - "application/json"
+      security:
+        - Bearer: []
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of  Fuel Type to return"
+          required: true
+          type: "integer"
+          format: "int64"
+      responses:
+        200:
+          description: "successful operation"
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Fuel Type not found"
+
+    delete:
+      tags:
+        - "Fuel Type"
+      summary: "Delete  Fuel Type"
+      description: "This can only be done by the logged in user."
+      operationId: "deleteFuelTypeById"
+      produces:
+        - "application/json"
+      security:
+        - Bearer: []
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "The  Fuel Type id that needs to be deleted"
+          required: true
+          type: "integer"
+      responses:
+        400:
+          description: "Invalid id supplied"
+        404:
+          description: "Fuel Type not found"
+
+
+    # ------------------------------------------------- Project   API START--------------------------------------------------------------------#
+  /api/p:
+      get:
+        tags:
+          - "Project"
+        summary: "Get Project List"
+        description: "Get Project List"
+        consumes:
+          - "application/json"
+        produces:
+          - "application/json"
+        security:
+        - Bearer: []
+        responses:
+          200:
+            description: "Success"
+          404:
+            description: "No content"
+
+      post:
+        tags:
+          - "Project"
+        summary: "Create Project Object"
+        description: "This can only be done by the logged in user."
+        operationId: "createProjectById"
+        produces:
+          - "application/json"
+        security:
+        - Bearer: []
+        parameters:
+          - in: "body"
+            name: "Project"
+            description: "Create Project object"
+            required: true
+            schema:
+              $ref: "#/definitions/Project"
+        responses:
+          default:
+            description: "successful operation"
+
+  /api/p/{id}:
+    put:
+      tags:
+        - "Project"
+      summary: "Update Project By Id"
+      description: "This can only be done by the logged in user."
+      operationId: "updateProjectById"
+      produces:
+        - "application/json"
+      security:
+        - Bearer: []
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "Project id that need to be updated"
+          required: true
+          type: "integer"
+        - in: "body"
+          name: "Project"
+          description: "Updated  Project object"
+          required: true
+          schema:
+            $ref: "#/definitions/Project"
+      responses:
+        400:
+          description: "Invalid id supplied"
+        404:
+          description: "Project not found"
+
+    get:
+      tags:
+        - "Project"
+      summary: "Find Project by Id"
+      description: "Returns a single Project"
+      operationId: "getProjectId"
+      produces:
+        - "application/json"
+      security:
+        - Bearer: []
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "Id of Project to return"
+          required: true
+          type: "integer"
+          format: "int64"
+      responses:
+        200:
+          description: "successful operation"
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Project not found"
+
+    delete:
+      tags:
+        - "Project"
+      summary: "Delete Project By Id"
+      description: "This can only be done by the logged in user."
+      operationId: "deleteProjectById"
+      produces:
+        - "application/json"
+      security:
+        - Bearer: []
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "The Project id that needs to be deleted"
+          required: true
+          type: "integer"
+      responses:
+        400:
+          description: "Invalid id supplied"
+        404:
+          description: "Project not found"
+
+
   
+  # ------------------------------------------------- Vehicle Make   API START--------------------------------------------------------------------#
+  /api/vm:
+      get:
+        tags:
+          - "Vehicle Make"
+        summary: "Get Vehicle Make List"
+        description: "Get Vehicle Make List"
+        consumes:
+          - "application/json"
+        produces:
+          - "application/json"
+        security:
+        - Bearer: []
+        responses:
+          200:
+            description: "Success"
+          404:
+            description: "No content"
+
+      post:
+        tags:
+          - "Vehicle Make"
+        summary: "Create Vehicle Make Object"
+        description: "This can only be done by the logged in user."
+        operationId: "createVehicleMakeById"
+        produces:
+          - "application/json"
+        security:
+        - Bearer: []
+        parameters:
+          - in: "body"
+            name: "Vehicle Make"
+            description: "Create Vehicle Make object"
+            required: true
+            schema:
+              $ref: "#/definitions/Vehicle Make"
+        responses:
+          default:
+            description: "successful operation"
+
+  /api/vm/{id}:
+    put:
+      tags:
+        - "Vehicle Make"
+      summary: "Update Vehicle Make By Id"
+      description: "This can only be done by the logged in user."
+      operationId: "updateVehicleMakeById"
+      produces:
+        - "application/json"
+      security:
+        - Bearer: []
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "Vehicle Make id that need to be updated"
+          required: true
+          type: "integer"
+        - in: "body"
+          name: "Vehicle Make"
+          description: "Updated Vehicle Make object"
+          required: true
+          schema:
+            $ref: "#/definitions/Vehicle Make"
+      responses:
+        400:
+          description: "Invalid id supplied"
+        404:
+          description: "Vehicle Make not found"
+
+    get:
+      tags:
+        - "Vehicle Make"
+      summary: "Find Vehicle Make by Id"
+      description: "Returns a single Project"
+      operationId: "getVehicleMakeId"
+      produces:
+        - "application/json"
+      security:
+        - Bearer: []
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "Id of Vehicle Make to return"
+          required: true
+          type: "integer"
+          format: "int64"
+      responses:
+        200:
+          description: "successful operation"
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Vehicle Make not found"
+
+    delete:
+      tags:
+        - "Vehicle Make"
+      summary: "Delete Vehicle Make By Id"
+      description: "This can only be done by the logged in user."
+      operationId: "deleteVehicleMakeById"
+      produces:
+        - "application/json"
+      security:
+        - Bearer: []
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "The Vehicle Make id that needs to be deleted"
+          required: true
+          type: "integer"
+      responses:
+        400:
+          description: "Invalid id supplied"
+        404:
+          description: "Vehicle Make not found"
+
+
+
+  # ------------------------------------------------- Vehicle Model   API START--------------------------------------------------------------------#
+  /api/vms:
+      get:
+        tags:
+          - "Vehicle Model"
+        summary: "Get Vehicle Model List"
+        description: "Get Vehicle Model List"
+        consumes:
+          - "application/json"
+        produces:
+          - "application/json"
+        security:
+        - Bearer: []
+        responses:
+          200:
+            description: "Success"
+          404:
+            description: "No content"
+
+      post:
+        tags:
+          - "Vehicle Model"
+        summary: "Create Vehicle Model Object"
+        description: "This can only be done by the logged in user."
+        operationId: "createVehicleModelById"
+        produces:
+          - "application/json"
+        security:
+        - Bearer: []
+        parameters:
+          - in: "body"
+            name: "Vehicle Model"
+            description: "Create Vehicle Model object"
+            required: true
+            schema:
+              $ref: "#/definitions/Vehicle Model"
+        responses:
+          default:
+            description: "successful operation"
+
+  /api/vms/{id}:
+    put:
+      tags:
+        - "Vehicle Model"
+      summary: "Update Vehicle Model By Id"
+      description: "This can only be done by the logged in user."
+      operationId: "updateVehicleModelById"
+      produces:
+        - "application/json"
+      security:
+        - Bearer: []
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "Vehicle Model id that need to be updated"
+          required: true
+          type: "integer"
+        - in: "body"
+          name: "Vehicle Model"
+          description: "Updated Vehicle Model object"
+          required: true
+          schema:
+            $ref: "#/definitions/Vehicle Model"
+      responses:
+        400:
+          description: "Invalid id supplied"
+        404:
+          description: "Vehicle Model not found"
+
+    get:
+      tags:
+        - "Vehicle Model"
+      summary: "Find Vehicle Model by Id"
+      description: "Returns a single Project"
+      operationId: "getVehicleModelById"
+      produces:
+        - "application/json"
+      security:
+        - Bearer: []
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "Id of Vehicle Model to return"
+          required: true
+          type: "integer"
+          format: "int64"
+      responses:
+        200:
+          description: "successful operation"
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Vehicle Make not found"
+
+    delete:
+      tags:
+        - "Vehicle Model"
+      summary: "Delete Vehicle Model By Id"
+      description: "This can only be done by the logged in user."
+      operationId: "deleteVehicleModelById"
+      produces:
+        - "application/json"
+      security:
+        - Bearer: []
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "The Vehicle Model id that needs to be deleted"
+          required: true
+          type: "integer"
+      responses:
+        400:
+          description: "Invalid id supplied"
+        404:
+          description: "Vehicle Model not found"
+
+
+    # ------------------------------------------------- Vehicle Ownership Type   API START--------------------------------------------------------------------#
+  /api/vot:
+      get:
+        tags:
+          - "Vehicle Ownership Type"
+        summary: "Get Vehicle Ownership Type List"
+        description: "Get Vehicle Ownership Type List"
+        consumes:
+          - "application/json"
+        produces:
+          - "application/json"
+        security:
+        - Bearer: []
+        responses:
+          200:
+            description: "Success"
+          404:
+            description: "No content"
+
+      post:
+        tags:
+          - "Vehicle Ownership Type"
+        summary: "Create Vehicle Ownership Type Object"
+        description: "This can only be done by the logged in user."
+        operationId: "createVehicleOwnershipTypeId"
+        produces:
+          - "application/json"
+        security:
+        - Bearer: []
+        parameters:
+          - in: "body"
+            name: "Vehicle Ownership Type"
+            description: "Create Vehicle Ownership Type object"
+            required: true
+            schema:
+              $ref: "#/definitions/Vehicle Ownership Type"
+        responses:
+          default:
+            description: "successful operation"
+
+  /api/vot/{id}:
+    put:
+      tags:
+        - "Vehicle Ownership Type"
+      summary: "Update Vehicle Ownership Type By Id"
+      description: "This can only be done by the logged in user."
+      operationId: "updateVehicleOwnershipTypeById"
+      produces:
+        - "application/json"
+      security:
+        - Bearer: []
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "Vehicle Ownership Type id that need to be updated"
+          required: true
+          type: "integer"
+        - in: "body"
+          name: "Vehicle Ownership Type"
+          description: "Updated Vehicle Ownership Type object"
+          required: true
+          schema:
+            $ref: "#/definitions/Vehicle Ownership Type"
+      responses:
+        400:
+          description: "Invalid id supplied"
+        404:
+          description: "Vehicle Ownership Type not found"
+
+    get:
+      tags:
+        - "Vehicle Ownership Type"
+      summary: "Find Vehicle Ownership Type by Id"
+      description: "Returns a single Project"
+      operationId: "getVehicleOwnershipTypeById"
+      produces:
+        - "application/json"
+      security:
+        - Bearer: []
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "Id of Vehicle Ownership Type to return"
+          required: true
+          type: "integer"
+          format: "int64"
+      responses:
+        200:
+          description: "successful operation"
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Vehicle Ownership Type not found"
+
+    delete:
+      tags:
+        - "Vehicle Ownership Type"
+      summary: "Delete Vehicle Ownership Type By Id"
+      description: "This can only be done by the logged in user."
+      operationId: "deleteVehicleOwnershipTypeById"
+      produces:
+        - "application/json"
+      security:
+        - Bearer: []
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "The Vehicle Ownership Type id that needs to be deleted"
+          required: true
+          type: "integer"
+      responses:
+        400:
+          description: "Invalid id supplied"
+        404:
+          description: "Vehicle Ownership Type not found"
+
+
+        # ------------------------------------------------- Vehicle API START--------------------------------------------------------------------#
+  /api/vh:
+      get:
+        tags:
+          - "Vehicle"
+        summary: "Get Vehicle List"
+        description: "Get Vehicle List"
+        consumes:
+          - "application/json"
+        produces:
+          - "application/json"
+        security:
+        - Bearer: []
+        responses:
+          200:
+            description: "Success"
+          404:
+            description: "No content"
+
+      post:
+        tags:
+          - "Vehicle"
+        summary: "Create Vehicle"
+        description: "This can only be done by the logged in user."
+        operationId: "createVehicleId"
+        produces:
+          - "application/json"
+        security:
+          - Bearer: []
+        parameters:
+          - in: "body"
+            name: "Vehicle"
+            description: "Create Vehicle object"
+            required: true
+            schema:
+              $ref: "#/definitions/Vehicle"
+        responses:
+          default:
+            description: "successful operation"
+
+  /api/vh/{id}:
+    put:
+      tags:
+        - "Vehicle"
+      summary: "Update vehicle By Id"
+      description: "This can only be done by the logged in user."
+      operationId: "updateVehicleById"
+      produces:
+        - "application/json"
+      security:
+        - Bearer: []
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "Vehicle id that need to be updated"
+          required: true
+          type: "integer"
+        - in: "body"
+          name: "Vehicle"
+          description: "Updated Vehicle object"
+          required: true
+          schema:
+            $ref: "#/definitions/Vehicle"
+      responses:
+        400:
+          description: "Invalid id supplied"
+        404:
+          description: "Vehicle not found"
+
+    get:
+      tags:
+        - "Vehicle"
+      summary: "Find Vehicle by Id"
+      description: "Returns a single Vehicle"
+      operationId: "getVehicleById"
+      produces:
+        - "application/json"
+      security:
+        - Bearer: []
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "Id of Vehicle to return"
+          required: true
+          type: "integer"
+          format: "int64"
+      responses:
+        200:
+          description: "successful operation"
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Vehicle not found"
+
+    delete:
+      tags:
+        - "Vehicle"
+      summary: "Delete Vehicle By Id"
+      description: "This can only be done by the logged in user."
+      operationId: "deleteVehicleById"
+      produces:
+        - "application/json"
+      security:
+        - Bearer: []
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "The Vehicle id that needs to be deleted"
+          required: true
+          type: "integer"
+      responses:
+        400:
+          description: "Invalid id supplied"
+        404:
+          description: "Vehicle not found"
+
+
+            # ------------------------------------------------- Vehicle Type API START--------------------------------------------------------------------#
+  /api/vtp:
+      get:
+        tags:
+          - "Vehicle Type"
+        summary: "Get Vehicle Type List"
+        description: "Get Vehicle Type List"
+        consumes:
+          - "application/json"
+        produces:
+          - "application/json"
+        security:
+        - Bearer: []
+        responses:
+          200:
+            description: "Success"
+          404:
+            description: "No content"
+
+      post:
+        tags:
+          - "Vehicle Type"
+        summary: "Create Vehicle Type"
+        description: "This can only be done by the logged in user."
+        operationId: "createVehicleTypeId"
+        produces:
+          - "application/json"
+        security:
+        - Bearer: []
+        parameters:
+          - in: "body"
+            name: "Vehicle Type"
+            description: "Create Vehicle Type object"
+            required: true
+            schema:
+              $ref: "#/definitions/Vehicle Type"
+        responses:
+          default:
+            description: "successful operation"
+
+  /api/vtp/{id}:
+    put:
+      tags:
+        - "Vehicle Type"
+      summary: "Update vehicle Type By Id"
+      description: "This can only be done by the logged in user."
+      operationId: "updateVehicleTypeById"
+      produces:
+        - "application/json"
+      security:
+        - Bearer: []
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "Vehicle Type id that need to be updated"
+          required: true
+          type: "integer"
+        - in: "body"
+          name: "Vehicle Type"
+          description: "Updated Vehicle Type object"
+          required: true
+          schema:
+            $ref: "#/definitions/Vehicle Type"
+      responses:
+        400:
+          description: "Invalid id supplied"
+        404:
+          description: "Vehicle Type not found"
+
+    get:
+      tags:
+        - "Vehicle Type"
+      summary: "Find Vehicle Type by Id"
+      description: "Returns a single Vehicle"
+      operationId: "getVehicleTypeById"
+      produces:
+        - "application/json"
+      security:
+        - Bearer: []
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "Id of Vehicle Type to return"
+          required: true
+          type: "integer"
+          format: "int64"
+      responses:
+        200:
+          description: "successful operation"
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Vehicle Type not found"
+
+    delete:
+      tags:
+        - "Vehicle Type"
+      summary: "Delete Vehicle Type By Id"
+      description: "This can only be done by the logged in user."
+      operationId: "deleteVehicleTypeById"
+      produces:
+        - "application/json"
+      security:
+        - Bearer: []
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "The Vehicle Type id that needs to be deleted"
+          required: true
+          type: "integer"
+      responses:
+        400:
+          description: "Invalid id supplied"
+        404:
+          description: "Vehicle Type not found"
+
+
+
+
+
+
+          
+
+
 
 
 definitions:
   # schemas:
-    UserCred:
-      type: object
-      required:
+  UserCred:
+    type: object
+    required:
       - username
       - user_password
-      properties:
-        username:
-         type: string
-         format: string
-        user_password:
-          type: string
-          format : string;
-    
-    User:
-      type: object
-      required:
+    properties:
+      username:
+        type: string
+        format: string
+      user_password:
+        type: string
+        format: string;
+
+  User:
+    type: object
+    required:
       - username
       - email_address
       - contact
       - user_password
-      properties:
-        user_id:
-         type: integer
-         format: int64
-         readOnly: true
-        username:
-          type: string
-        email_address:
-          type: string
-        contact: 
-          type: string
-        user_password:
-          type: string
-        is_active:
-          type: boolean
+    properties:
+      user_id:
+        type: integer
+        format: int64
+        readOnly: true
+      username:
+        type: string
+      email_address:
+        type: string
+      contact:
+        type: string
+      user_password:
+        type: string
+      is_active:
+        type: boolean
 
-    Company:
-      type: object
-      required:
+  Company:
+    type: object
+    required:
       - company_name
       - created_by
       - updated_by
-      properties:
-        company_id:
-          type: integer
-          format: int64
-          readOnly: true
-        company_name:
-          type: string
-        created_by:
-          type: integer
-          format: int64
-        updated_by: 
-          type: integer
-          format: int64
-      
-    Department:
-      type: object
-      properties:
-        department_id:
-          type: integer
-        department:
-          type: string
-        created_by:
-          type: integer
-        updated_by: 
-          type: integer
+    properties:
+      company_id:
+        type: integer
+        format: int64
+        readOnly: true
+      company_name:
+        type: string
+      created_by:
+        type: integer
+        format: int64
+      updated_by:
+        type: integer
+        format: int64
 
-    Driver:
-      type: object
-      properties:
-        driver_id:
-          type: integer
-          format: int64
-        vehicle_id:
-          type: integer
-          format: int64
-        company_id:
-          type: integer
-          format: int64
-        user_id:
-          type: integer
-          format: int64
-        created_by:
-          type: integer
-          format: int64
-        updated_by: 
-          type: integer
-          format: int64
+  Department:
+    type:
+    required:
+      - department
+      - created_by
+      - updated_by
+    properties:
+      department_id:
+        type: integer
+        format: int64
+        readOnly: true
+      department:
+        type: string
+      created_by:
+        type: integer
+        format: int64
+      updated_by:
+        type: integer
+        format: int64
 
-    Fuel Request Payment:
-      type: object
-      properties:
-        payment_id:
-          type: integer
-          format: int64
-        amount_paid:
-          type: number
-        fuel_request_id:
-           type: integer
-           format: int64
-        paid_by:
-           type: integer
-        created_by:
-          type: integer
-          format: int64
-        updated_by: 
-          type: integer
-          format: int64
+  Driver:
+    type: object
+    required:
+      - company_id
+      - user_id
+      - created_by
+      - updated_by
+    properties:
+      driver_id:
+        type: integer
+        format: int64
+        readOnly: true
+      vehicle_id:
+        type: integer
+        format: int64
+      company_id:
+        type: integer
+        format: int64
+      user_id:
+        type: integer
+        format: int64
+      created_by:
+        type: integer
+        format: int64
+      updated_by:
+        type: integer
+        format: int64
 
-    Fuel Request Receipt attachment:
-      type: object
-      properties:
-        attachment_id:
-          type: integer
-          format: int64
-        attachment_path:
-          type: string
-        fuel_request_id:
-           type: integer
-           format: int64
-        created_by:
-          type: integer
-          format: int64
-        updated_by: 
-          type: integer
-          format: int64
+  Fuel Request Payment:
+    type: object
+    required:
+      - amount_paid
+      - fuel_request_id
+      - paid_by
+      - created_by
+      - updated_by
+    properties:
+      payment_id:
+        type: integer
+        format: int64
+        readOnly: true
+      amount_paid:
+        type: number
+      fuel_request_id:
+        type: integer
+        format: int64
+      paid_by:
+        type: integer
+      created_by:
+        type: integer
+        format: int64
+      updated_by:
+        type: integer
+        format: int64
 
-    Fuel Request Receipt attachment:
-      type: object
-      properties:
-        fuel_request_id:
-          type: integer
-          format: int64
-        department_id:
-          type: integer
-          format: int64
-        project_id:
-           type: integer
-           format: int64
-        vehicle_id:
-           type: integer
-        paybill_number:
-           type: integer
-           format: int64
-        driver_id:
-            type: integer
-            format: int64
-        current_odometer:
-            type: double
-        fuel_vendor:
-             type: string
-        fuel_quantity:
-              type: double
-        price_per_quantity:
-              type: number
-        is_approved:
-               type: boolean
-        created_by:
-              type: integer
-              format: int64
-        updated_by: 
-              type: integer
-              format: int64
+  Fuel Request Receipt Attachment:
+    type: object
+    required:
+      - attachment_path
+      - fuel_request_id
+      - created_by
+      - updated_by
+    properties:
+      attachment_id:
+        type: integer
+        format: int64
+        readOnly: true
+      attachment_path:
+        type: string
+      fuel_request_id:
+        type: integer
+        format: int64
+      created_by:
+        type: integer
+        format: int64
+      updated_by:
+        type: integer
+        format: int64
 
-    Fuel Types:
-      type: object
-      properties:
-        fuel_type_id:
-          type: integer
-          format: int64
-        fuel_type:
-          type: string
-        created_by:
-          type: integer
-          format: int64
-        updated_by: 
-          type: integer
-          format: int64
-
-    Project:
-      type: object
-      properties:
-        project_id:
-          type: integer
-          format: int64
-        project:
-          type: string
-        is_active:
-           type: boolean
-        department_id:
-           type: integer  
-           format: int64
-        created_by:
-          type: integer
-          format: int64
-        updated_by: 
-          type: integer
-          format: int64
-      
+  Fuel Request Receipt attachment:
+    type: object
+    required:
+      - department_id
+      - project_id
+      - vehicle_id
+      - paybill_number
+      - driver_id
+      - current_odometer
+      - fuel_vendor
+      - fuel_quantity
+      - price_per_quantity
+      - is_approved
+      - created_by
+      - updated_by
     
-    Vehicle Make:
-      type: object
-      properties:
-        make_id:
-          type: integer
-          format: int64
-        vehicle_make:
-          type: string
-        vehicle_make_logo_path:
-          type: string 
-        created_by:
-          type: integer
-          format: int64
-        updated_by: 
-          type: integer
-          format: int64
-      
-    Vehicle Model:
-      type: object
-      properties:
-        vehicle_model_id:
-          type: integer
-          format: int64
-        model_name:
-          type: string
-        make_id:
-          type: integer 
-          format: int64
-        created_by:
-          type: integer
-          format: int64
-        updated_by: 
-          type: integer
-          format: int64
+    properties:
+      fuel_request_id:
+        type: integer
+        format: int64
+        readOnly: true
+      department_id:
+        type: integer
+        format: int64
+      project_id:
+        type: integer
+        format: int64
+      vehicle_id:
+        type: integer
+      paybill_number:
+        type: integer
+        format: int64
+      driver_id:
+        type: integer
+        format: int64
+      current_odometer:
+        type: double
+      fuel_vendor:
+        type: string
+      fuel_quantity:
+        type: double
+      price_per_quantity:
+        type: number
+      is_approved:
+        type: boolean
+      created_by:
+        type: integer
+        format: int64
+      updated_by:
+        type: integer
+        format: int64
 
-        
-    Vehicle Ownership Type:
-      type: object
-      properties:
-        ownership_type_id:
-          type: integer
-          format: int64
-        ownership_type:
-          type: string
-        created_by:
-          type: integer
-          format: int64
-        updated_by: 
-          type: integer
-          format: int64
-    
-    Vehicle :
-      type: object
-      properties:
-        vehicle_id:
-          type: integer
-          format: int64
-        license_plate:
-          type: string
-        odometer_value:
-          type: double
-        vehicle_make_id:
-          type: integer
-          format: int64
-        vehicle_model_id:
-          type: integer
-          format: int64
-        vehicle_model_year:
-          type: string
-        vehicle_ownership_id:
-          type: integer
-        fuel_type_id:
-           type: integer
-           format: int64
-        created_by:
-          type: integer
-          format: int64
-        updated_by: 
-          type: integer
-          format: int64
+  Fuel Types:
+    type: object
+    required:
+      - fuel_type
+      - created_by
+      - updated_by
 
-            
-    Vehicle Type:
-      type: object
-      properties:
-        vehicle_type_id:
-          type: integer
-          format: int64
-        vehicle_type:
-          type: string
-        created_by:
-          type: integer
-          format: int64
-        updated_by: 
-          type: integer
-          format: int64
+    properties:
+      fuel_type_id:
+        type: integer
+        format: int64
+        readOnly: true
+      fuel_type:
+        type: string
+      created_by:
+        type: integer
+        format: int64
+      updated_by:
+        type: integer
+        format: int64
 
-securitySchemes:
-    bearerAuth:            # arbitrary name for the security scheme
-      type: http
-      scheme: bearer
-      bearerFormat: JWT    # optional, arbitrary value for documentation purposes
-# 2) Apply the security globally to all operations
-security:
-  - bearerAuth: []  
+  Project:
+    type: object
+    required:
+      - project
+      - is_active
+      - department_id
+      - created_by
+      - updated_by
+    properties:
+      project_id:
+        type: integer
+        format: int64
+        readOnly: true
+      project:
+        type: string
+      is_active:
+        type: boolean
+      department_id:
+        type: integer
+        format: int64
+      created_by:
+        type: integer
+        format: int64
+      updated_by:
+        type: integer
+        format: int64
 
-   
-      
+  Vehicle Make:
+    type: object
+    required:
+      - vehicle_make
+      - vehicle_make_logo_path
+      - created_by
+      - updated_by
 
-    
+    properties:
+      make_id:
+        type: integer
+        format: int64
+        readOnly: true
+      vehicle_make:
+        type: string
+      vehicle_make_logo_path:
+        type: string
+      created_by:
+        type: integer
+        format: int64
+      updated_by:
+        type: integer
+        format: int64
 
-    
+  Vehicle Model:
+    type: object
+    required:
+      - model_name
+      - make_id
+      - created_by
+      - updated_by
+    properties:
+      vehicle_model_id:
+        type: integer
+        format: int64
+        readOnly: true
+      model_name:
+        type: string
+      make_id:
+        type: integer
+        format: int64
+      created_by:
+        type: integer
+        format: int64
+      updated_by:
+        type: integer
+        format: int64
 
+  Vehicle Ownership Type:
+    type: object
+    properties:
+      ownership_type_id:
+        type: integer
+        format: int64
+      ownership_type:
+        type: string
+      created_by:
+        type: integer
+        format: int64
+      updated_by:
+        type: integer
+        format: int64
 
+  Vehicle:
+    type: object
+    required:
+      - license_plate
+      - odometer_value
+      - vehicle_make_id
+      - vehicle_model_id
+      - vehicle_model_year
+      - vehicle_ownership_id
+      - fuel_type_id
+      - created_by
+      - updated_by
 
+    properties:
+      vehicle_id:
+        type: integer
+        format: int64
+        readOnly :
+      license_plate:
+        type: string
+      odometer_value:
+        type: double
+      vehicle_make_id:
+        type: integer
+        format: int64
+      vehicle_model_id:
+        type: integer
+        format: int64
+      vehicle_model_year:
+        type: string
+      vehicle_ownership_id:
+        type: integer
+      fuel_type_id:
+        type: integer
+        format: int64
+      created_by:
+        type: integer
+        format: int64
+      updated_by:
+        type: integer
+        format: int64
 
-       
-    
-        
+  Vehicle Type:
+    type: object
+    required:
+      - vehicle_type
+      - created_by
+      - updated_by
+    properties:
+      vehicle_type_id:
+        type: integer
+        format: int64
+        readOnly: true
+      vehicle_type:
+        type: string
+      created_by:
+        type: integer
+        format: int64
+      updated_by:
+        type: integer
+        format: int64
